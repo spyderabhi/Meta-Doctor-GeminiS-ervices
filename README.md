@@ -1,4 +1,5 @@
 🥗 7-Day Indian Vegetarian Meal Plan Generator
+
 Generate a personalized 7-day Indian vegetarian meal plan based on an image of a dish using AI.
 
 🚀 About the Project
