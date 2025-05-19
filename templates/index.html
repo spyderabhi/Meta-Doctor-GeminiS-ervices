@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>7-Day Indian Vegetarian Meal Plan Generator</title>
+    <script>
+        async function generateMealPlan(event) {
+            event.preventDefault();
+            const imageUrl = document.getElementById("image_url").value;
+            const resultDiv = document.getElementById("result");
+            resultDiv.textContent = "Loading...";
+
+            try {
+                const response = await fetch('/generate-meal-plan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image_url: imageUrl })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.textContent = data.meal_plan;
+                } else {
+                    resultDiv.textContent = "Error: " + (data.error || "Unknown error");
+                }
+            } catch (err) {
+                resultDiv.textContent = "Request failed: " + err.message;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>7-Day Indian Vegetarian Meal Plan Generator</h1>
+    <form onsubmit="generateMealPlan(event)">
+        <label for="image_url">Food Image URL:</label><br />
+        <input type="url" id="image_url" name="image_url" required
+               style="width: 400px;"
+               placeholder="Paste a direct image URL here" /><br /><br />
+        <button type="submit">Generate Meal Plan</button>
+    </form>
+    <h3>Meal Plan Result:</h3>
+    <pre id="result" style="white-space: pre-wrap; background:#f0f0f0; padding:10px; width:600px; height:300px; overflow:auto;"></pre>
+</body>
+</html>
